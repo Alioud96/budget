@@ -1,3 +1,4 @@
+
 import sqlite3
 
 # # Creation de la base de donnees de budgetDB
@@ -7,55 +8,60 @@ cur = conn.cursor()
 
 conn.commit()
 
-def create_depense():
-    req="CREATE TABLE depense(id INTEGER PRIMARY KEY, habillement numeric, loyer numeric, nourriture numeric, transport numeric)"
-    cur.execute(req) 
-    conn.commit()
-create_depense()
 
+# Création de la table "depenses"
+conn.execute('''CREATE TABLE depenses
+             (id INTEGER PRIMARY KEY AUTOINCREMENT,
+             categorie_depense numeric,
+             nourriture numeric,
+             transport);''')
+                         
+             
+ # Insertion de données dans la table "depenses"
+conn.execute("INSERT INTO depenses (categorie_depense) VALUES ('nourriture')")
+conn.execute("INSERT INTO depenses (categorie_depense) VALUES ('transport')")
 
-def ajouter_depense():
-    habillement =int(input("veuiller donner la depense de votre habillement svp "))
-    loyer =int(input("veuiller donner la depense de votre loyer "))
-    nourriture =int(input("veuiller donner la depense de votre nourriture "))
-    transport =int(input("veuiller donner la depense de votre transport "))
-    
-    req1="INSERT INTO depense(habillement, loyer, nourriture, transport) Values (?,?,?,?)"
-    cur.execute(req1,(habillement, loyer, nourriture, transport))
-    conn.commit() 
-    
-ajouter_depense() 
+# Enregistrement des modifications
+conn.commit()
 
+# Exécution d'une requête pour récupérer les données insérées
+cursor = conn.execute("SELECT id, categorie_depense FROM depenses")
+for row in cursor:
+    print(f"id = {row[0]}, categorie_depense = {row[1]}")
+
+# Fermeture de la connexion à la base de données
+conn.close()
+
+             
+# Fermeture de la connexion à la base de données
+conn.close()
 
 
 def table_revenu():
-    req2="CREATE TABLE revenu(id INTEGER PRIMARY KEY, salaire numeric, business numeric, pension numeric, allocation numeric, categorie)"
+    req2="CREATE TABLE revenu(id INTEGER PRIMARY KEY, categorie revenu, business numeric )"
     cur.execute(req2) 
     conn.commit()
     
 table_revenu()
 
-def ajout_revenu(salaire, business, pension, allocation, categorie):
-    salaire = 200000
-    business = 3000
-    pension = 2000
-    allocation = 30000
-    categorie = 1200
-    conn.execute("INSERT INTO revenu (salaire, business, pension, allocation, categorie) \
-                  VALUES (?, ?, ?, ?, ?)", (salaire, business, pension, allocation, categorie))
-    conn.commit()
 
-ajout_revenu(salaire=200000, business=3000, pension=2000, allocation=30000, categorie=1200)
+def ajouter_revenu():
+    categorie revenu =int(input("veuiller donner la categorie de votre revenu svp "))
+    business =int(input("veuiller donner le revenu de votre business svp "))
+    
+    req2="INSERT INTO revenu(categorie revenu,bussiness) Values (?,?)"
+    cur.execute(req2,(categorie revenu,business))
+    conn.commit() 
+    
+ajouter_categorie() 
 
- 
+
 # calcul du depense total
+nourriture =int(input("veuiller donner la categorie de depense nourriture svp "))
+transport =int(input("veuiller donner la categorie de depense de transport svp "))
 
-habillement = int(input("donner la depense de habillement"))
-loyer= int(input("donner la depense du loyer"))
-nourriture= int(input("donner la depense de la nourriture"))
-transport=int(input("donner la depense pour le transport")) 
 
-total_depense = habillement+loyer+nourriture+transport
+total_depense = nourriture+transport
 
 print("vous avez depensez au total:"+str(total_depense)+"fcfa")
 if total_depense > 500000:
@@ -68,14 +74,10 @@ else:
 conn.commit()
 
 # calcul du revenu total
+categorie revenu =int(input("veuiller donner la categorie de votre revenu svp "))
+business =int(input("veuiller donner le revenu de votre business svp "))
 
-salaire = int(input("donner le revenu de votre salaire "))
-business= int(input("donner le revenu de votre business "))
-pension= int(input("donner le revenu de votre pension "))
-allocation=int(input("donner le revenu de votre allocation "))
-categorie=int(input("donner le revenu de votre categorie "))
-
-total_revenu = salaire+business+pension+allocation+categorie
+total_revenu = categorie revenu + business 
 
 print("la somme de vos revenue est: " +str(total_revenu)+ "fcfa")
 
@@ -105,3 +107,20 @@ conn.commit()
 # fermer la connexion
 
 conn.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
