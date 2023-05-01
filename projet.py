@@ -32,11 +32,6 @@ for row in cursor:
 # Fermeture de la connexion à la base de données
 conn.close()
 
-             
-# Fermeture de la connexion à la base de données
-conn.close()
-
-
 def table_revenu():
     req2="CREATE TABLE revenu(id INTEGER PRIMARY KEY, categorie revenu, business numeric )"
     cur.execute(req2) 
@@ -89,18 +84,16 @@ else:
  print(" vous avez trop depenser cette fois ci !!!") 
 conn.commit()
 
-
-# calcul de l'ecart
-if total_depense < total_revenu:
-    ecart = total_revenu-total_depense
-    print("l'ecart entre les depenses et les  revenus est :"+str(ecart)+"fcfa")
-elif total_revenu < total_depense:
-    ecart = total_depense-total_revenu
-    print("l'ecart entre les depenses est :"+str(ecart)+"fcfa")
-else:
-    print("pas d'ecart entre les depenses et les revenues")
-
-# print("l'ecart entre vos depense et revenus est estimee a :" + str(ecart) + "fcfa")
+#Calcul de l'ecart
+def ecart_budget():
+  total_depense = float(input("réecrivez le solde de votre depense:"))
+  total_revenu = float(input("réecrivez le solde de votre revenu:"))
+  print(total_depense)
+  print(total_revenu)
+  ecart = total_revenu-total_depense
+  print("l'ecart est:", ecart)
+  return ecart
+ecart_budget()
 
 conn.commit()
 
