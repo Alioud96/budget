@@ -40,38 +40,33 @@ def ajouter_revenu():
 
 ajouter_revenu()
 
-# calcul du depense total
-montant =int(input("veuiller donner votre montant svp "))
-categorie =input("veuiller donner votre type de categorie svp ")
+# Exécute une requête SQL dans de la table dépense
 
-# calcul de la somme des attributs des depenses
-somme = montant + categorie
+curseur.execute("SELECT * FROM depense")
 
-# affichage de la somme des depenses
-print("La somme de", montant, "et", categorie, "est :", somme)
+# Récupére la liste des depenses
+
+def liste_depenses():
+    rows = cur.execute("SELECT * FROM depense").fetchall()
+    print(rows)
+    
+liste_depenses() 
+
+# Une requête SQL pour récupérer la somme des revenus
+curseur.execute("SELECT SUM(revenu) FROM revenu")
+somme_revenus = curseur.fetchone()[0]
+
+# Calculez la somme des dépenses en parcourant la liste des dépenses
+somme_depenses = 0
+for depense in liste_depenses:
+    somme_depenses += depense[1] # Supposons que le montant de la dépense se trouve à l'indice 1
 
 
-# calcul du revenu total
-montant =int(input("veuiller donner votre montant svp "))
-categorie =input("veuiller donner votre type de categorie svp ")
+# Calculez l'écart entre les revenus et les dépenses
 
-# calcul de la somme des attributs des revenus
-somme = montant + categorie
+ecart = somme_revenus - somme_depenses
 
-# affichage de la somme des revenus
-print("La somme de", montant, "et", categorie, "est :", somme)
 
-# calcul de l'ecart
-if total_depense < total_revenu:
-    ecart = total_revenu-total_depense
-    print("l'ecart entre les depenses et les  revenus est :"+str(ecart)+"fcfa")
-elif total_revenu < total_depense:
-    ecart = total_depense-total_revenu
-    print("l'ecart entre les depenses est :"+str(ecart)+"fcfa")
-else:
-    print("pas d'ecart entre les depenses et les revenues")
-
-# print("l'ecart entre vos depense et revenus est estimee a :" + str(ecart) + "fcfa")
 
 conn.commit()
 
